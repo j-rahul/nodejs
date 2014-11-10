@@ -8,17 +8,36 @@ router.get('/', function(req, res) {
 
 /* GET Hello World page. */
 router.get('/helloworld', function(req, res) {
+    	logger.warn("howdy? this is the first log message");
+	  logger.log('silly', "127.0.0.1 - there's no place like home");
+	  logger.log('debug', "127.0.0.1 - there's no place like home");
+	  logger.log('verbose', "127.0.0.1 - there's no place like home");
+	  logger.log('info', "127.0.0.1 - there's no place like home");
+	  logger.log('warn', "127.0.0.1 - there's no place like home");
+	  logger.log('error', "127.0.0.1 - there's no place like home");
+	  logger.info("127.0.0.1 - there's no place like home");
+	  logger.warn("127.0.0.1 - there's no place like home");
+	  logger.error("127.0.0.1 - there's no place like home");
     res.render('helloworld', { title: 'Hello, World!' })
 });
 
 /* GET Userlist page. */
 router.get('/userlist', function(req, res) {
+	logger.info("inside userlist router");
     var db = req.db;
+    logger.info("successfully got the usercollection");
     var collection = db.get('usercollection');
+    logger.info("successfully got the usercollection");
     collection.find({},{},function(e,docs){
-        res.render('userlist', {
-            "userlist" : docs
-        });
+    	if(e){
+    		logger.error("exception thrown: " + e);
+    		return;
+    	}
+    	if(docs){
+    		res.render('userlist', {
+                "userlist" : docs
+            });
+    	}   
     });
 });
 
